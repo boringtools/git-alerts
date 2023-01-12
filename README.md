@@ -21,4 +21,7 @@ pip3 install -r requirements.txt
 ```commandline
 python3 main.py -o your-organization-name
 ```
+## Documentation
+
+[/docs](https://github.com/boringtools/git-alerts/tree/main/docs)
 > For future work & support, please check the issues created
