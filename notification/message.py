@@ -4,9 +4,9 @@ from config.conf import *
 from logger.log import *
 def scan_summary():
     try:
-        org_users_count = get_json_len(f"{OUTPUT_DIRECTORY}/{ORG_USERS_FILE_NAME}.json", 'usernames')
-        org_repos_count = get_json_len(f"{OUTPUT_DIRECTORY}/{ORG_REPO_FILE_NAME}.json", 'repository')
-        org_users_repo_count = get_json_len(f"{OUTPUT_DIRECTORY}/{ORG_USERS_REPO_FILE_NAME}.json", 'repository')
+        org_users_count = get_json_len(ORG_USER_FILE_PATH, 'usernames')
+        org_repos_count = get_json_len(ORG_REPO_FILE_PATH, 'repository')
+        org_users_repo_count = get_json_len(ORG_USER_REPO_FILE_PATH, 'repository')
         org_upper_name = ORGANIZATION.upper()
         data = [
             [f'TOTAL {org_upper_name} GITHUB USERS', f'{org_users_count}'],

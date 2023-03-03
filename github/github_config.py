@@ -10,4 +10,3 @@ github_request_params = {"page": "1", "per_page": "100"}
 
 github_url_org = f"https://api.github.com/orgs/{ORGANIZATION}"
 github_url_user = f"https://api.github.com/users"
-
