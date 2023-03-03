@@ -4,7 +4,7 @@ from github.get_org_users_repositories import *
 from common.save_to_csv import *
 from common.save_to_json import *
 from notification.message import *
-
+from ci.monitor import *
 
 def main():
     org_users = get_org_users()
@@ -20,6 +20,7 @@ def main():
     save_to_csv(ORG_USERS_REPO_FILE_NAME)
 
     scan_summary()
+    monitor()
 
 
 if __name__ == '__main__':
