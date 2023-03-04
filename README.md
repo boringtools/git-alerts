@@ -8,8 +8,9 @@ Any public repository created under the organization user account that was creat
 
 ### Example
 
-- https://github.com/<org>/<org-repo-name>
-- https://github.com/<org-user>/<org-user-repo-name>
+`https://github.com/<org>/<org-repo-name>`
+
+`https://github.com/<org-user>/<org-user-repo-name>`
 
 `git-alert` helps you to detect and monitor public repositories creation under the organization and organization users as well.
 
