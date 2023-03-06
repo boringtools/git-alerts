@@ -28,19 +28,19 @@ pip3 install -r requirements.txt
 ```
 ## Usage
 
-> Find all public GitHub repositories belonging to an organization and organization users
+- we want to scan GitHub repositories belonging to our organization and organization users
 
 ```commandline
 python3 main.py -o your-organization-name
 ```
 
-> Run in monitor mode to detect new public repositories
+- we want to monitor new public repositories being created by our organization and organization users
 
 ```commandline
 python3 main.py -o your-organization-name -m True
 ```
 
-> Run in monitor mode to detect new public repositories with slack notifications
+- we want to monitor new public repositories being created by our organization and organization users with slack notification
 
 ```commandline
 python3 main.py -o your-organization-name -m True -s True
@@ -49,6 +49,7 @@ Setup slack webhook token as the environment variable
 ```commandline
 export SLACK_WEBHOOK=SLACK_WEBHOOK_TOKEN
 ```
+## Documentation
 [docs](https://github.com/boringtools/git-alerts/tree/main/docs)
 > For future work & support, please check the issues created
 
