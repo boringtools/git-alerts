@@ -1,4 +1,4 @@
-# GitAlert
+# GitAlert [Check Improved Version Here](https://github.com/c0d3G33k/git-alert)
 
 ## What problem does it solve?
 
