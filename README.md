@@ -1,56 +1,64 @@
-# GitAlert
+# GitAlerts
 
 ## What problem does it solve?
 
-GitHub repositories created under any organization can be controlled by the administrators. But any repository created under an organization user account is not controllable unless the organisation has adopted the GitHub enterprise-managed user model. 
+GitHub repositories created under any organization can be controlled by the GitHub administrators. However any repository created under an organization's user account is not controllable unless the organisation has adopted the GitHub enterprise-managed user (EMU) model.
 
-Any public repository created under the organization user account that was created for any testing could leak secrets, internal information, code etc.
+Any public repository under the organization's user account that was created accidentally or for testing purposes could leak secrets, internal information, code etc. GitAlerts helps you detect and monitor such cases
 
 ### Example
 
-`https://github.com/<org>/<org-repo-name>`
+> Can be controlled by the administrator `https://github.com/<org>/<org-repo-name>`
 
-`https://github.com/<org-user>/<org-user-repo-name>`
-
-`git-alert` helps you to detect and monitor public repositories creation under the organization and organization users as well.
+> Can't be controlled by the administrator `https://github.com/<org-user>/<org-user-repo-name>`
 
 ## Setup
 
-Setup GitHub personal access token as the environment variable
+Setup GitHub personal access token (PAT) as the environment variable
 
 ```commandline
 export GITHUB_PAT=YOUR_GITHUB_PAT
 ```
+
 ## Dependencies
 
-```commandline
-pip3 install -r requirements.txt
+```go
+go mod tidy
 ```
+
 ## Usage
 
-- we want to scan GitHub repositories belonging to our organization and organization users
+Scan GitHub repositories belonging to your organization users
 
-```commandline
-python3 main.py -o your-organization-name
+```go
+go run . scan --org your-org-name
 ```
 
-- we want to monitor new public repositories being created by our organization and organization users
+Monitor new public repositories being created by your organization users
 
-```commandline
-python3 main.py -o your-organization-name -m True
+```go
+go run . monitor --org your-org-name
 ```
 
-- we want to monitor new public repositories being created by our organization and organization users with slack notification
+Monitor new public repositories being created by your organization users with slack notification
 
-```commandline
-python3 main.py -o your-organization-name -m True -s True
+```go
+go run . monitor --org your-org-name --slack-alert
 ```
+
 Setup slack webhook token as the environment variable
-```commandline
-export SLACK_WEBHOOK=SLACK_WEBHOOK_TOKEN
-```
-## Documentation
-[docs](https://github.com/boringtools/git-alerts/tree/main/docs)
-> For future work & support, please check the issues created
 
+```commandline
+export SLACK_HOOK=SLACK_WEBHOOK_URL
+```
+
+Scan and generate report with custom path
+
+```go
+go run . scan --org your-org-name --report-path /your/file/path/
+```
+
+## Documentation
+
+[docs](https://github.com/c0d3G33k/git-alert/tree/main/docs)
 > Please feel to reach out for any feedback and suggestions
