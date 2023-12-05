@@ -58,7 +58,18 @@ Scan and generate report with custom path
 go run . scan --org your-org-name --report-path /your/file/path/
 ```
 
+Scan with secrets detection using Trufflehog
+> Ensure trufflehog is installed in your machine
+```go
+go run . detect --org your-org-name
+```
+
 ## Documentation
 
 [docs](https://github.com/c0d3G33k/git-alert/tree/main/docs)
 > Please feel to reach out for any feedback and suggestions
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=boringtools/git-alerts&type=Date)](https://star-history.com/#boringtools/git-alerts&Date)
+

@@ -4,6 +4,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/boringtools/git-alerts/config"
 	"github.com/boringtools/git-alerts/logger"
 )
 
@@ -36,6 +37,17 @@ func StartChecks() {
 		}
 	}
 
+}
+
+func CheckScanFiles() {
+	_, errScanFile := os.Stat(config.GhFilePaths()[1])
+
+	if errScanFile != nil {
+		logger.LogERR("Previous scan files not found")
+		logger.LogERR("If you are running it for the first time")
+		logger.LogERR("Please consider running the SCAN command first")
+		os.Exit(1)
+	}
 }
 
 func Start() {
