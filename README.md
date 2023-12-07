@@ -1,5 +1,9 @@
 # GitAlerts
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/boringtools/git-alerts)](https://goreportcard.com/report/github.com/boringtools/git-alerts)
+![License](https://img.shields.io/github/license/boringtools/git-alerts)
+![Release](https://img.shields.io/github/v/release/boringtools/git-alerts)
+
 ## What problem does it solve?
 
 GitHub repositories created under any organization can be controlled by the GitHub administrators. However any repository created under an organization's user account is not controllable unless the organisation has adopted the GitHub enterprise-managed user (EMU) model.
@@ -12,56 +16,68 @@ Any public repository under the organization's user account that was created acc
 
 > Can't be controlled by the administrator `https://github.com/<org-user>/<org-user-repo-name>`
 
-## Setup
+## Getting Started
+
+- Download the binary file for your operating system / architecture from the [Official GitHub Releases](https://github.com/boringtools/git-alerts/releases)
+
+- You can also install `git-alerts` using homebrew in MacOS and Linux
+
+```bash
+brew tap boringtools/tap
+brew install boringtools/tap/git-alerts
+```
+
+- Alternatively, build from source
+
+> Ensure $(go env GOPATH)/bin is in your $PATH
+
+```bash
+go install github.com/boringtools/git-alerts@main
+```
 
 Setup GitHub personal access token (PAT) as the environment variable
 
-```commandline
+```bash
 export GITHUB_PAT=YOUR_GITHUB_PAT
-```
-
-## Dependencies
-
-```go
-go mod tidy
 ```
 
 ## Usage
 
 Scan GitHub repositories belonging to your organization users
 
-```go
-go run . scan --org your-org-name
+```bash
+git-alerts scan --org your-org-name
 ```
 
 Monitor new public repositories being created by your organization users
 
-```go
-go run . monitor --org your-org-name
+```bash
+git-alerts monitor --org your-org-name
 ```
 
 Monitor new public repositories being created by your organization users with slack notification
 
-```go
-go run . monitor --org your-org-name --slack-alert
+```bash
+git-alerts monitor --org your-org-name --slack-alert
 ```
 
 Setup slack webhook token as the environment variable
 
-```commandline
+```bash
 export SLACK_HOOK=SLACK_WEBHOOK_URL
 ```
 
 Scan and generate report with custom path
 
-```go
-go run . scan --org your-org-name --report-path /your/file/path/
+```bash
+git-alerts scan --org your-org-name --report-path /your/file/path/
 ```
 
 Scan with secrets detection using Trufflehog
 > Ensure trufflehog is installed in your machine
-```go
-go run . detect --org your-org-name
+
+```bash
+git-alerts detect --org your-org-name
 ```
 
 ## Documentation
@@ -72,4 +88,3 @@ go run . detect --org your-org-name
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=boringtools/git-alerts&type=Date)](https://star-history.com/#boringtools/git-alerts&Date)
-
