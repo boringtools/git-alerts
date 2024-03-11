@@ -35,7 +35,7 @@ brew install boringtools/tap/git-alerts
 go install github.com/boringtools/git-alerts@main
 ```
 
-Setup GitHub personal access token (PAT) as the environment variable
+Setup GitHub personal access token [(PAT)](https://github.com/boringtools/git-alerts/blob/main/docs/github.md) as the environment variable
 
 ```bash
 export GITHUB_PAT=YOUR_GITHUB_PAT
@@ -82,7 +82,7 @@ git-alerts detect --org your-org-name
 
 ## Documentation
 
-[docs](https://github.com/c0d3G33k/git-alert/tree/main/docs)
+[docs](https://github.com/boringtools/git-alerts/tree/main/docs)
 > Please feel to reach out for any feedback and suggestions
 
 ## Star History
