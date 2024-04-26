@@ -16,7 +16,7 @@ var (
 	pageLength int
 )
 
-func GetResponse(ghURL string, params map[string]string) ([]byte, int) {
+func GetResponse(ghURL string, auth bool, params map[string]string) ([]byte, int) {
 
 	parameters := url.Values{}
 
@@ -28,14 +28,17 @@ func GetResponse(ghURL string, params map[string]string) ([]byte, int) {
 	client := &http.Client{}
 
 	request, errRequest := http.NewRequest("GET", fullURL, nil)
-	pat := "token " + os.Getenv("GITHUB_PAT")
 
 	if errRequest != nil {
 		logger.LogERR("GetResponse - Error in making HTTP calls to GitHub")
 		panic(errRequest)
 	}
 
-	request.Header.Add("Authorization", pat)
+	if auth {
+		pat := "token " + os.Getenv("GITHUB_PAT")
+		request.Header.Add("Authorization", pat)
+	}
+
 	response, errResponse := client.Do(request)
 
 	if errResponse != nil {

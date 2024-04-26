@@ -8,6 +8,10 @@ import (
 	"github.com/boringtools/git-alerts/logger"
 )
 
+var (
+	Auth bool
+)
+
 func GetTime() (date string) {
 	time := time.Now()
 	date = time.Format("Mon Jan 2 15:04:05 MST 2006")
@@ -25,9 +29,8 @@ func StartChecks() {
 	_, isGitHubPat := os.LookupEnv("GITHUB_PAT")
 	_, isSlackHook := os.LookupEnv("SLACK_HOOK")
 
-	if !isGitHubPat {
-		logger.LogERR("GITHUB_PAT is not configured in ENV variable")
-		os.Exit(1)
+	if isGitHubPat {
+		Auth = true
 	}
 
 	if os.Getenv("slack") == "true" {

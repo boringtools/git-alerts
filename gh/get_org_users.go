@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/boringtools/git-alerts/common"
 	"github.com/boringtools/git-alerts/config"
 	"github.com/boringtools/git-alerts/logger"
 )
@@ -32,7 +33,7 @@ func GetUsers() (jsonData []byte) {
 	parameters := map[string]string{
 		"per_page": "100",
 	}
-	ghResponse, pageLength := GetResponse(url, parameters)
+	ghResponse, pageLength := GetResponse(url, common.Auth, parameters)
 
 	if pageLength == 0 {
 
@@ -47,7 +48,7 @@ func GetUsers() (jsonData []byte) {
 	} else {
 		for i := 1; i <= pageLength; i++ {
 			parameters["page"] = strconv.Itoa(i)
-			ghResponse, _ := GetResponse(url, parameters)
+			ghResponse, _ := GetResponse(url, common.Auth, parameters)
 
 			json.Unmarshal(ghResponse, &user)
 			allUsers = append(allUsers, user...)
