@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/boringtools/git-alerts/common"
 	"github.com/boringtools/git-alerts/config"
 	"github.com/boringtools/git-alerts/logger"
 )
@@ -24,7 +25,7 @@ func CheckPatLimit() {
 	url := config.GhUrls()[1]
 	parameters := map[string]string{}
 
-	ghResponse, _ := GetResponse(url, parameters)
+	ghResponse, _ := GetResponse(url, common.Auth, parameters)
 	json.Unmarshal(ghResponse, &limit)
 
 	remaining := limit.Rate.Remaining
@@ -33,12 +34,13 @@ func CheckPatLimit() {
 	date := time.Format("Mon Jan 2 15:04:05 MST 2006")
 
 	if remaining <= 10 {
-		logger.LogERR("GitHub PAT limit exceeded")
-		logger.LogERR("Please try once the limit reset")
+		logger.LogERR("GitHub request limit exceeded")
+		logger.LogERR("Please try again once the limit reset or try with GitHub PAT")
+		logger.LogERRP("Remaining request limit : ", remaining)
 		logger.LogERRP("Reset time : ", date)
 		os.Exit(1)
 	}
 
-	logger.LogP("Remaining PAT limit : ", remaining)
+	logger.LogP("Remaining request limit : ", remaining)
 
 }

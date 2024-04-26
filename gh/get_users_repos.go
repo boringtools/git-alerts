@@ -44,7 +44,7 @@ func GetUsersRepos() (jsonData []byte) {
 	}
 	for _, value := range rURL {
 
-		usersRepo, _ := GetResponse(value.URL, parameters)
+		usersRepo, _ := GetResponse(value.URL, common.Auth, parameters)
 
 		json.Unmarshal(usersRepo, &repos)
 		allRepos = append(allRepos, repos...)

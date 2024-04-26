@@ -35,7 +35,7 @@ brew install boringtools/tap/git-alerts
 go install github.com/boringtools/git-alerts@main
 ```
 
-Setup GitHub personal access token [(PAT)](https://github.com/boringtools/git-alerts/blob/main/docs/github.md) as the environment variable
+Setup GitHub personal access token [(PAT)](https://github.com/boringtools/git-alerts/blob/main/docs/github.md) as the environment variable, without PAT GitHub will only allow `60` request per hour.
 
 ```bash
 export GITHUB_PAT=YOUR_GITHUB_PAT
