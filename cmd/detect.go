@@ -16,10 +16,13 @@ var detectCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		envs := map[string]string{
-			"org":     org,
-			"rfp":     report,
-			"command": cmd.Use,
-			"csv":     strconv.FormatBool(csv),
+			"org":                 org,
+			"rfp":                 report,
+			"command":             cmd.Use,
+			"csv":                 strconv.FormatBool(csv),
+			"trufflehog":          strconv.FormatBool(trufflehog),
+			"trufflehog-verified": strconv.FormatBool(trufflehogVerified),
+			"gitleaks":            strconv.FormatBool(gitleaks),
 		}
 		common.SetEnvs(envs)
 
@@ -32,4 +35,9 @@ var detectCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(detectCmd)
+	detectCmd.PersistentFlags().BoolVarP(&trufflehog, "trufflehog", "t", false, "Scan secrets using Trufflehog")
+	detectCmd.PersistentFlags().BoolVarP(&trufflehogVerified, "trufflehog-verified", "v", true, "Scan Trufflehog verified secrets")
+	detectCmd.PersistentFlags().BoolVarP(&gitleaks, "gitleaks", "g", false, "Scan secrets using Gitleaks")
+
+	detectCmd.MarkFlagsOneRequired("trufflehog", "trufflehog-verified", "gitleaks")
 }

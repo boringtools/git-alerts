@@ -43,11 +43,21 @@ export GITHUB_PAT=YOUR_GITHUB_PAT
 
 ## Usage
 
+### Scan
+
 Scan GitHub repositories belonging to your organization users
 
 ```bash
 git-alerts scan --org your-org-name
 ```
+
+Scan and generate report with custom path
+
+```bash
+git-alerts scan --org your-org-name --report-path /your/file/path/
+```
+
+### Monitor
 
 Monitor new public repositories being created by your organization users
 
@@ -67,17 +77,20 @@ Setup slack webhook token as the environment variable
 export SLACK_HOOK=SLACK_WEBHOOK_URL
 ```
 
-Scan and generate report with custom path
-
-```bash
-git-alerts scan --org your-org-name --report-path /your/file/path/
-```
+### Secrets
 
 Scan with secrets detection using Trufflehog
 > Ensure trufflehog is installed in your machine
 
 ```bash
-git-alerts detect --org your-org-name
+git-alerts detect --org your-org-name --trufflehog
+git-alerts detect --org your-org-name --trufflehog-verified
+```
+Scan with secrets detection using Gitleaks
+> Ensure Gitleaks is installed in your machine
+
+```bash
+git-alerts detect --org your-org-name --gitleaks
 ```
 
 ## Documentation
