@@ -11,6 +11,9 @@ var (
 	report string
 	csv    bool
 	slack  bool
+	trufflehog bool
+	trufflehogVerified bool
+	gitleaks bool
 )
 
 var rootCmd = &cobra.Command{

@@ -21,30 +21,38 @@ var (
 )
 
 func GetSecrets() {
-	logger.Log("Running secrets scan")
 	fileContent := common.GetJsonFileContent(config.GhFileNames()[1])
 	json.Unmarshal(fileContent, &repo)
 
-	directoryName := "cloned_repo"
-	directoryPath := os.Getenv("rfp") + directoryName
+	if os.Getenv("gitleaks") == "true" {
 
-	_, errDirExists := os.Stat(directoryPath)
+		directoryName := "cloned_repo"
+		directoryPath := os.Getenv("rfp") + directoryName
 
-	if errDirExists != nil {
-		CreateDirectory(directoryPath)
+		_, errDirExists := os.Stat(directoryPath)
+
+		if errDirExists != nil {
+			CreateDirectory(directoryPath)
+		} else {
+			RemoveDirectory(directoryPath)
+			CreateDirectory(directoryPath)
+		}
+
+		for key, value := range repo {
+			if !value.Fork {
+				cloneDirectory := directoryPath + "/" + strconv.Itoa(key)
+				CloneRepo(value.CloneUrl, cloneDirectory)
+				logger.LogP("Scanning repository : ", value.CloneUrl)
+				RunGitleaks(cloneDirectory)
+				RemoveDirectory(cloneDirectory)
+			}
+		}
 	} else {
-		RemoveDirectory(directoryPath)
-		CreateDirectory(directoryPath)
-	}
-
-	for key, value := range repo {
-		if !value.Fork {
-			cloneDirectory := directoryPath + "/" + strconv.Itoa(key)
-			tfTarget := "file://" + cloneDirectory
-
-			CloneRepo(value.CloneUrl, cloneDirectory)
-			RunTruffleHog(tfTarget)
-			RemoveDirectory(cloneDirectory)
+		for _, value := range repo {
+			if !value.Fork {
+				logger.LogP("Scanning repository : ", value.CloneUrl)
+				RunTruffleHog(value.CloneUrl)
+			}
 		}
 	}
 }
