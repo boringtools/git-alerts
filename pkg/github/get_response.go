@@ -1,4 +1,4 @@
-package gh
+package github
 
 import (
 	"fmt"
@@ -8,15 +8,13 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/boringtools/git-alerts/logger"
 )
 
 var (
 	pageLength int
 )
 
-func GetResponse(ghURL string, auth bool, params map[string]string) ([]byte, int) {
+func GetGitHubResponse(URL string, auth bool, params map[string]string) ([]byte, int, error) {
 
 	parameters := url.Values{}
 
@@ -24,31 +22,28 @@ func GetResponse(ghURL string, auth bool, params map[string]string) ([]byte, int
 		parameters.Add(key, value)
 	}
 
-	fullURL := fmt.Sprintf("%s?%s", ghURL, parameters.Encode())
+	fullURL := fmt.Sprintf("%s?%s", URL, parameters.Encode())
 	client := &http.Client{}
 
 	request, errRequest := http.NewRequest("GET", fullURL, nil)
 
 	if errRequest != nil {
-		logger.LogERR("GetResponse - Error in making HTTP calls to GitHub")
-		panic(errRequest)
+		return nil, 0, errRequest
 	}
 
 	if auth {
-		pat := "token " + os.Getenv("GITHUB_PAT")
-		request.Header.Add("Authorization", pat)
+		token := "Bearer " + os.Getenv("GITHUB_PAT")
+		request.Header.Add("Authorization", token)
 	}
 
 	response, errResponse := client.Do(request)
 
 	if errResponse != nil {
-		logger.LogERR("GetResponse - Error in fetching HTTP Response")
-		panic(errResponse)
+		return nil, 0, errResponse
 	}
 
-	if response.StatusCode != 200 {
-		logger.LogERR("Please provide a valid GitHub PAT")
-		os.Exit(1)
+	if response.StatusCode != http.StatusOK {
+		return nil, 0, fmt.Errorf("unable to fetch response, status code : %s", response.Status)
 	}
 
 	getLinkAttr := response.Header.Get("Link")
@@ -71,10 +66,9 @@ func GetResponse(ghURL string, auth bool, params map[string]string) ([]byte, int
 	rowResponse, errRead := io.ReadAll(response.Body)
 
 	if errRead != nil {
-		logger.LogERR("GetResponse - Error in reading response body")
-		panic(errRead)
+		return nil, 0, errRead
 	}
 	defer response.Body.Close()
 
-	return rowResponse, pageLength
+	return rowResponse, pageLength, nil
 }

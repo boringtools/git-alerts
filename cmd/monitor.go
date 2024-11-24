@@ -1,13 +1,14 @@
 package cmd
 
 import (
-	"strconv"
+	"os"
 
-	"github.com/boringtools/git-alerts/common"
-	"github.com/boringtools/git-alerts/gh"
+	"github.com/boringtools/git-alerts/pkg/common"
+	"github.com/boringtools/git-alerts/pkg/github"
+	"github.com/boringtools/git-alerts/pkg/notification"
+	"github.com/boringtools/git-alerts/pkg/ui"
+	"github.com/boringtools/git-alerts/pkg/utils"
 
-	"github.com/boringtools/git-alerts/logger"
-	"github.com/boringtools/git-alerts/reporter"
 	"github.com/spf13/cobra"
 )
 
@@ -16,25 +17,29 @@ var monitorCmd = &cobra.Command{
 	Short: "Monitor public repositories",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
+		common.Command = cmd.Use
 
-		envs := map[string]string{
-			"org":     org,
-			"rfp":     report,
-			"command": cmd.Use,
-			"csv":     strconv.FormatBool(csv),
-			"slack":   strconv.FormatBool(slack),
+		if common.SlackNotification {
+			_, isSlackHook := os.LookupEnv("SLACK_HOOK")
+
+			if !isSlackHook {
+				ui.PrintError("SLACK_HOOK is not configured in ENV variable")
+				os.Exit(1)
+			}
 		}
 
-		common.SetEnvs(envs)
+		if !utils.IsPreviousScanFileExists() {
+			ui.PrintError("Previous scan files not found, Please consider running SCAN command first")
+			os.Exit(1)
+		}
 
-		common.CheckScanFiles()
-		gh.Connecter()
-		reporter.Notify()
-		logger.LogP("Scan ended : ", common.GetTime())
+		github.Connecter()
+		notification.Notify()
+		ui.PrintSuccess("Scan Ended : %s", utils.GetCurrentTime())
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(monitorCmd)
-	monitorCmd.PersistentFlags().BoolVarP(&slack, "slack-alert", "s", false, "Slack notification")
+	monitorCmd.PersistentFlags().BoolVarP(&common.SlackNotification, "slack-alert", "s", false, "Slack notification")
 }
