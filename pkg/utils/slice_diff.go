@@ -1,7 +1,6 @@
-package common
+package utils
 
 func SliceDiff(slice1, slice2 []string) (diff []string) {
-
 	for _, val1 := range slice1 {
 		found := false
 
@@ -11,10 +10,10 @@ func SliceDiff(slice1, slice2 []string) (diff []string) {
 				break
 			}
 		}
+		
 		if !found {
 			diff = append(diff, val1)
 		}
 	}
-
 	return diff
 }
