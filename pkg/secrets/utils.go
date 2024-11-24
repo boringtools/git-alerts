@@ -2,9 +2,9 @@ package secrets
 
 import (
 	"fmt"
-	"os"
 	"os/exec"
 
+	"github.com/boringtools/git-alerts/pkg/common"
 	"github.com/go-git/go-git/v5"
 )
 
@@ -50,10 +50,10 @@ func RunTruffleHog(repoURL string) error {
 		return fmt.Errorf("trufflehog is not installed in your machine")
 	}
 
-	if os.Getenv("trufflehog") == "true" {
-		tf = exec.Command("trufflehog", "git", repoURL)
-	} else {
+	if common.TrufflehogVerifiedScan {
 		tf = exec.Command("trufflehog", "git", repoURL, "--only-verified")
+	} else {
+		tf = exec.Command("trufflehog", "git", repoURL)
 	}
 
 	op, errTf := tf.Output()
