@@ -3,24 +3,14 @@ package cmd
 import (
 	"os"
 
+	"github.com/boringtools/git-alerts/pkg/common"
 	"github.com/spf13/cobra"
-)
-
-var (
-	org    string
-	report string
-	csv    bool
-	slack  bool
-	trufflehog bool
-	trufflehogVerified bool
-	gitleaks bool
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "git-alerts",
 	Short: "A Public Git repository & misconfiguration detection tool",
 	Long:  ``,
-	// Run: func(cmd *cobra.Command, args []string) { },
 }
 
 func Execute() {
@@ -31,9 +21,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&org, "org", "o", "", "GitHub organization name")
+	rootCmd.PersistentFlags().StringVarP(&common.GitHubOrg, "org", "o", "", "GitHub organization name")
 	rootCmd.MarkPersistentFlagRequired("org")
-	rootCmd.PersistentFlags().BoolVarP(&csv, "csv", "c", false, "CSV report format")
-	rootCmd.PersistentFlags().StringVarP(&report, "report-path", "r", "/tmp/", "Report file path")
-
+	rootCmd.PersistentFlags().StringVarP(&common.ReportPath, "report-path", "r", "/tmp/", "Report file path")
 }

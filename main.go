@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/boringtools/git-alerts/cmd"
+	"github.com/boringtools/git-alerts/pkg/ui"
 )
 
 var banner string = `
@@ -16,6 +15,6 @@ var banner string = `
 `
 
 func main() {
-	fmt.Println(banner)
+	ui.PrintBanner(banner)
 	cmd.Execute()
 }

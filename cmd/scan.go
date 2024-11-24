@@ -1,11 +1,10 @@
 package cmd
 
 import (
-	"strconv"
-
-	"github.com/boringtools/git-alerts/common"
-	"github.com/boringtools/git-alerts/gh"
-	"github.com/boringtools/git-alerts/logger"
+	"github.com/boringtools/git-alerts/pkg/common"
+	"github.com/boringtools/git-alerts/pkg/github"
+	"github.com/boringtools/git-alerts/pkg/ui"
+	"github.com/boringtools/git-alerts/pkg/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -15,17 +14,10 @@ var scanCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		envs := map[string]string{
-			"org":     org,
-			"rfp":     report,
-			"command": cmd.Use,
-			"csv":     strconv.FormatBool(csv),
-		}
+		common.Command = cmd.Use
+		github.Connecter()
 
-		common.SetEnvs(envs)
-		gh.Connecter()
-
-		logger.LogP("Scan ended : ", common.GetTime())
+		ui.PrintSuccess("Scan Ended : %s", utils.GetCurrentTime())
 	},
 }
 
