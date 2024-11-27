@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/boringtools/git-alerts/cmd"
-	"github.com/boringtools/git-alerts/pkg/ui"
+	"github.com/boringtools/git-alerts/internal/ui"
 )
 
 var banner string = `

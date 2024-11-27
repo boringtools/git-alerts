@@ -1,15 +1,14 @@
 package github
 
 import (
+	"github.com/boringtools/git-alerts/internal/ui"
 	"github.com/boringtools/git-alerts/pkg/common"
-	"github.com/boringtools/git-alerts/pkg/config"
-	"github.com/boringtools/git-alerts/pkg/ui"
-	"github.com/boringtools/git-alerts/pkg/utils"
 )
 
 func Connecter() {
-	utils.CheckAuthenticatedScan()
-	ui.PrintSuccess("Scan started : %s", utils.GetCurrentTime())
+	common.ValidateFlags()
+	common.CheckAuthenticatedScan()
+	ui.PrintSuccess("Scan started : %s", common.GetCurrentTime())
 
 	gitHubAPILimit, errLimit := GetGitHubPATLimits()
 
@@ -27,12 +26,12 @@ func Connecter() {
 		ui.PrintError("error fetching GitHub users : %s", errGetGitHubUsers)
 	}
 
-	errSaveToJson := utils.SaveToJson(users, config.GetReportFilePaths().GitHubOrgUsers)
+	errSaveToJson := common.SaveToJson(users, common.GetReportFilePaths().GitHubOrgUsers)
 
 	if errSaveToJson != nil {
 		ui.PrintError("error saving data to JSON : %s", errSaveToJson)
 	} else {
-		ui.PrintSuccess("%s users fetched successfully %s", common.GitHubOrg, config.GetReportFilePaths().GitHubOrgUsers)
+		ui.PrintSuccess("%s users fetched successfully %s", common.GitHubOrg, common.GetReportFilePaths().GitHubOrgUsers)
 	}
 
 	usersRepo, errGetGitHubUsers := GetGitHubUsersRepos()
@@ -42,22 +41,22 @@ func Connecter() {
 	}
 
 	if common.Command == "monitor" {
-		errSaveToJson := utils.SaveToJson(usersRepo, config.GetReportFilePaths().GitHubOrgPublicReposNew)
+		errSaveToJson := common.SaveToJson(usersRepo, common.GetReportFilePaths().GitHubOrgPublicReposNew)
 
 		if errSaveToJson != nil {
 			ui.PrintError("error saving data to JSON : %s", errSaveToJson)
 		} else {
-			ui.PrintSuccess("%s public repositories fetched successfully %s", common.GitHubOrg, config.GetReportFilePaths().GitHubOrgPublicRepos)
+			ui.PrintSuccess("%s public repositories fetched successfully %s", common.GitHubOrg, common.GetReportFilePaths().GitHubOrgPublicRepos)
 		}
 	} else {
-		errSaveToJson := utils.SaveToJson(usersRepo, config.GetReportFilePaths().GitHubOrgPublicRepos)
+		errSaveToJson := common.SaveToJson(usersRepo, common.GetReportFilePaths().GitHubOrgPublicRepos)
 
 		if errSaveToJson != nil {
 			ui.PrintError("error saving data to JSON : %s", errSaveToJson)
 		} else {
-			ui.PrintSuccess("%s public repositories fetched successfully %s", common.GitHubOrg, config.GetReportFilePaths().GitHubOrgPublicRepos)
+			ui.PrintSuccess("%s public repositories fetched successfully %s", common.GitHubOrg, common.GetReportFilePaths().GitHubOrgPublicRepos)
 		}
 	}
 
-	utils.PrintSummery()
+	common.PrintSummery()
 }

@@ -4,10 +4,9 @@ import (
 	"encoding/json"
 	"strconv"
 
+	"github.com/boringtools/git-alerts/internal/ui"
 	"github.com/boringtools/git-alerts/pkg/common"
-	"github.com/boringtools/git-alerts/pkg/config"
 	"github.com/boringtools/git-alerts/pkg/models"
-	"github.com/boringtools/git-alerts/pkg/ui"
 )
 
 var (
@@ -18,7 +17,7 @@ var (
 func GetGitHubUsers() ([]byte, error) {
 	ui.PrintMsg("Fetching %s users", common.GitHubOrg)
 
-	url := config.GetGitHubAPIEndPoints().GetUsers
+	url := common.GetGitHubAPIEndPoints().GetUsers
 	parameters := map[string]string{
 		"per_page": "100",
 	}

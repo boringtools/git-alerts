@@ -8,10 +8,11 @@ var (
 	TrufflehogScan         bool
 	TrufflehogVerifiedScan bool
 	GitleaksScan           bool
-	AuthenticatedScan      bool
 )
 
 var (
+	AuthenticatedScan          bool
 	NumberOfGitHubUsers        int
 	NumberOfPublicRepositories int
+	CloneDirectoryPath         string
 )

@@ -8,27 +8,6 @@ import (
 	"github.com/go-git/go-git/v5"
 )
 
-func CreateDirectory(dirPath string) error {
-	cmd := exec.Command("mkdir", dirPath)
-	_, err := cmd.Output()
-
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func RemoveDirectory(dirPath string) error {
-	cmd := exec.Command("rm", "-rf", dirPath)
-	_, err := cmd.Output()
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func CloneRepo(url, dir string) error {
 	_, errClone := git.PlainClone(dir, false, &git.CloneOptions{
 		URL:      url,
@@ -43,12 +22,6 @@ func CloneRepo(url, dir string) error {
 
 func RunTruffleHog(repoURL string) error {
 	var tf *exec.Cmd
-
-	_, checkTf := exec.LookPath("trufflehog")
-
-	if checkTf != nil {
-		return fmt.Errorf("trufflehog is not installed in your machine")
-	}
 
 	if common.TrufflehogVerifiedScan {
 		tf = exec.Command("trufflehog", "git", repoURL, "--only-verified")
@@ -70,21 +43,15 @@ func RunTruffleHog(repoURL string) error {
 }
 
 func RunGitleaks(repoPath string) error {
-	_, checkTf := exec.LookPath("gitleaks")
+	gitleaksScan := exec.Command("gitleaks", "git", repoPath, "-v")
+	output, errGitleaksScan := gitleaksScan.CombinedOutput()
 
-	if checkTf != nil {
-		return fmt.Errorf("gitleaks is not installed in your machine")
+	if exitError, ok := errGitleaksScan.(*exec.ExitError); ok && exitError.ExitCode() == 1 {
+		fmt.Println(string(output))
 	}
 
-	gl := exec.Command("gitleaks", "git", repoPath, "-v")
-	op, errGl := gl.CombinedOutput()
-
-	if exitError, ok := errGl.(*exec.ExitError); ok && exitError.ExitCode() == 1 {
-		fmt.Println(string(op))
-	}
-
-	if errGl != nil {
-		return errGl
+	if errGitleaksScan != nil {
+		return errGitleaksScan
 	}
 
 	return nil
