@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/boringtools/git-alerts/pkg/config"
+	"github.com/boringtools/git-alerts/pkg/common"
 	"github.com/boringtools/git-alerts/pkg/models"
-	"github.com/boringtools/git-alerts/pkg/utils"
 )
 
 var (
@@ -17,8 +16,8 @@ var (
 )
 
 func GetNewPublicRepositories() ([]string, error) {
-	newFile, _ := utils.GetJSONFileContent(config.GetReportFilePaths().GitHubOrgPublicReposNew)
-	oldFile, _ := utils.GetJSONFileContent(config.GetReportFilePaths().GitHubOrgPublicRepos)
+	newFile, _ := common.GetJSONFileContent(common.GetReportFilePaths().GitHubOrgPublicReposNew)
+	oldFile, _ := common.GetJSONFileContent(common.GetReportFilePaths().GitHubOrgPublicRepos)
 
 	errNewFile := json.Unmarshal(newFile, &newRepos)
 
@@ -40,8 +39,8 @@ func GetNewPublicRepositories() ([]string, error) {
 		allOldRepos = append(allOldRepos, value.HtmlURL)
 	}
 
-	lisOfNewPublicRepos := utils.SliceDiff(allNewRepos, allOldRepos)
+	lisOfNewPublicRepos := common.SliceDiff(allNewRepos, allOldRepos)
 
-	os.Rename(config.GetReportFilePaths().GitHubOrgPublicReposNew, config.GetReportFilePaths().GitHubOrgPublicRepos)
+	os.Rename(common.GetReportFilePaths().GitHubOrgPublicReposNew, common.GetReportFilePaths().GitHubOrgPublicRepos)
 	return lisOfNewPublicRepos, nil
 }

@@ -1,9 +1,9 @@
 package notification
 
 import (
+	"github.com/boringtools/git-alerts/internal/ui"
 	"github.com/boringtools/git-alerts/pkg/common"
 	"github.com/boringtools/git-alerts/pkg/github"
-	"github.com/boringtools/git-alerts/pkg/ui"
 )
 
 var (

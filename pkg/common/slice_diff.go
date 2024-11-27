@@ -1,4 +1,4 @@
-package utils
+package common
 
 func SliceDiff(slice1, slice2 []string) (diff []string) {
 	for _, val1 := range slice1 {

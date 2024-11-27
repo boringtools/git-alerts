@@ -3,11 +3,9 @@ package github
 import (
 	"encoding/json"
 
+	"github.com/boringtools/git-alerts/internal/ui"
 	"github.com/boringtools/git-alerts/pkg/common"
-	"github.com/boringtools/git-alerts/pkg/config"
 	"github.com/boringtools/git-alerts/pkg/models"
-	"github.com/boringtools/git-alerts/pkg/ui"
-	"github.com/boringtools/git-alerts/pkg/utils"
 )
 
 type RepoURL struct {
@@ -23,7 +21,7 @@ var (
 func GetGitHubUsersRepos() ([]byte, error) {
 	ui.PrintMsg("Fetching " + common.GitHubOrg + " users public repositories")
 
-	users, _ := utils.GetJSONFileContent(config.GetReportFilePaths().GitHubOrgUsers)
+	users, _ := common.GetJSONFileContent(common.GetReportFilePaths().GitHubOrgUsers)
 	json.Unmarshal(users, &rURL)
 
 	parameters := map[string]string{
