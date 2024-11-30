@@ -15,4 +15,6 @@ var (
 	NumberOfGitHubUsers        int
 	NumberOfPublicRepositories int
 	CloneDirectoryPath         string
+	SlackMessage               string
+	NewMonitorRepositories     []string
 )

@@ -8,9 +8,9 @@ import (
 	"github.com/go-git/go-git/v5"
 )
 
-func CloneRepo(url, dir string) error {
-	_, errClone := git.PlainClone(dir, false, &git.CloneOptions{
-		URL:      url,
+func CloneRepo(repoURL, destination string) error {
+	_, errClone := git.PlainClone(destination, false, &git.CloneOptions{
+		URL:      repoURL,
 		Progress: nil,
 	})
 
@@ -42,17 +42,17 @@ func RunTruffleHog(repoURL string) error {
 	return nil
 }
 
-func RunGitleaks(repoPath string) error {
+func RunGitleaks(repoPath string, printOutput bool) (isSecretFound bool, err error) {
 	gitleaksScan := exec.Command("gitleaks", "git", repoPath, "-v")
 	output, errGitleaksScan := gitleaksScan.CombinedOutput()
 
 	if exitError, ok := errGitleaksScan.(*exec.ExitError); ok && exitError.ExitCode() == 1 {
-		fmt.Println(string(output))
-	}
 
-	if errGitleaksScan != nil {
-		return errGitleaksScan
+		if printOutput {
+			fmt.Println(string(output))
+		}
+		return true, nil
+	} else {
+		return false, nil
 	}
-
-	return nil
 }

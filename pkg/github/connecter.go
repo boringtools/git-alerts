@@ -3,6 +3,7 @@ package github
 import (
 	"github.com/boringtools/git-alerts/internal/ui"
 	"github.com/boringtools/git-alerts/pkg/common"
+	"github.com/jedib0t/go-pretty/v6/table"
 )
 
 func Connecter() {
@@ -31,7 +32,7 @@ func Connecter() {
 	if errSaveToJson != nil {
 		ui.PrintError("error saving data to JSON : %s", errSaveToJson)
 	} else {
-		ui.PrintSuccess("%s users fetched successfully %s", common.GitHubOrg, common.GetReportFilePaths().GitHubOrgUsers)
+		ui.PrintMsg("Users fetched : %s", common.GetReportFilePaths().GitHubOrgUsers)
 	}
 
 	usersRepo, errGetGitHubUsers := GetGitHubUsersRepos()
@@ -46,7 +47,7 @@ func Connecter() {
 		if errSaveToJson != nil {
 			ui.PrintError("error saving data to JSON : %s", errSaveToJson)
 		} else {
-			ui.PrintSuccess("%s public repositories fetched successfully %s", common.GitHubOrg, common.GetReportFilePaths().GitHubOrgPublicRepos)
+			ui.PrintMsg("Repositories fetched : %s", common.GetReportFilePaths().GitHubOrgPublicRepos)
 		}
 	} else {
 		errSaveToJson := common.SaveToJson(usersRepo, common.GetReportFilePaths().GitHubOrgPublicRepos)
@@ -54,9 +55,15 @@ func Connecter() {
 		if errSaveToJson != nil {
 			ui.PrintError("error saving data to JSON : %s", errSaveToJson)
 		} else {
-			ui.PrintSuccess("%s public repositories fetched successfully %s", common.GitHubOrg, common.GetReportFilePaths().GitHubOrgPublicRepos)
+			ui.PrintMsg("Repositories fetched : %s", common.GetReportFilePaths().GitHubOrgPublicRepos)
 		}
 	}
 
-	common.PrintSummery()
+	summeryTableHeader := table.Row{"scan summery", "data"}
+	summeryTableRow := []table.Row{
+		{"total users", common.NumberOfGitHubUsers},
+		{"total users repositories", common.NumberOfPublicRepositories},
+	}
+
+	ui.PrintTable(summeryTableHeader, summeryTableRow)
 }

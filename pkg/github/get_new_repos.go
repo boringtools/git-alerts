@@ -39,8 +39,8 @@ func GetNewPublicRepositories() ([]string, error) {
 		allOldRepos = append(allOldRepos, value.HtmlURL)
 	}
 
-	lisOfNewPublicRepos := common.SliceDiff(allNewRepos, allOldRepos)
+	common.NewMonitorRepositories = common.SliceDiff(allNewRepos, allOldRepos)
 
 	os.Rename(common.GetReportFilePaths().GitHubOrgPublicReposNew, common.GetReportFilePaths().GitHubOrgPublicRepos)
-	return lisOfNewPublicRepos, nil
+	return common.NewMonitorRepositories, nil
 }

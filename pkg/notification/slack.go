@@ -11,6 +11,10 @@ import (
 	"github.com/boringtools/git-alerts/pkg/models"
 )
 
+var (
+	slackMessage string
+)
+
 func SendSlackNotification(content string) error {
 
 	payload := models.SlackPayload{Text: content}

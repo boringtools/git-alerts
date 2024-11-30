@@ -2,6 +2,7 @@ package secrets
 
 import (
 	"encoding/json"
+	"path/filepath"
 	"strconv"
 
 	"github.com/boringtools/git-alerts/internal/ui"
@@ -21,10 +22,10 @@ func RunSecretsScan() {
 
 		for key, value := range repo {
 			if !value.Fork {
-				cloneDirectory := common.CloneDirectoryPath + "/" + strconv.Itoa(key)
+				cloneDirectory := filepath.Join(common.CloneDirectoryPath, strconv.Itoa(key))
 				CloneRepo(value.CloneURL, cloneDirectory)
 				ui.PrintMsg("Scanning repository : %s", value.CloneURL)
-				RunGitleaks(cloneDirectory)
+				RunGitleaks(cloneDirectory, true)
 				common.RemoveDirectory(cloneDirectory)
 			} else {
 				ui.PrintWarning("Skipping forked repository : %s", value.CloneURL)

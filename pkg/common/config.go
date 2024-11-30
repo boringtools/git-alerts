@@ -12,9 +12,9 @@ func GetGitHubAPIEndPoints() *models.GitHubAPIEndPoints {
 
 func GetReportFileNames() *models.ReportFileNames {
 	return &models.ReportFileNames{
-		GitHubOrgUsers:          GitHubOrg + "_github_users.json",
-		GitHubOrgPublicRepos:    GitHubOrg + "_public_repositories.json",
-		GitHubOrgPublicReposNew: GitHubOrg + "_public_repositories_new.json",
+		GitHubOrgUsers:          GitHubOrg + "_users.json",
+		GitHubOrgPublicRepos:    GitHubOrg + "_public_repos.json",
+		GitHubOrgPublicReposNew: GitHubOrg + "_public_repos_new.json",
 	}
 }
 
