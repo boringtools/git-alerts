@@ -15,7 +15,7 @@ var (
 )
 
 func GetGitHubUsers() ([]byte, error) {
-	ui.PrintMsg("Fetching %s users", common.GitHubOrg)
+	ui.PrintMsg("Fetching %s users...", common.GitHubOrg)
 
 	url := common.GetGitHubAPIEndPoints().GetUsers
 	parameters := map[string]string{

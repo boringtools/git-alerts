@@ -19,7 +19,7 @@ var (
 )
 
 func GetGitHubUsersRepos() ([]byte, error) {
-	ui.PrintMsg("Fetching " + common.GitHubOrg + " users public repositories")
+	ui.PrintMsg("Fetching " + common.GitHubOrg + " users public repositories...")
 
 	users, _ := common.GetJSONFileContent(common.GetReportFilePaths().GitHubOrgUsers)
 	json.Unmarshal(users, &rURL)

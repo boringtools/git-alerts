@@ -48,3 +48,8 @@ type ReportFileNames struct {
 type SlackPayload struct {
 	Text string `json:"text"`
 }
+
+type MonitorRepositoryData struct {
+	Repository string
+	Secrets    bool
+}

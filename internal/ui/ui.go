@@ -32,16 +32,13 @@ func PrintError(s string, args ...any) {
 	fmt.Fprint(os.Stderr, text.FgRed.Sprint(msg), "\n")
 }
 
-func PrintTable(data []string, header string) {
-	tbl := table.NewWriter()
-	tbl.SetOutputMirror(os.Stdout)
-	tbl.AppendHeader(table.Row{header})
+func PrintTable(header table.Row, row []table.Row) {
+	t := table.NewWriter()
+	t.SetOutputMirror(os.Stdout)
+	t.AppendHeader(header)
 
-	for _, value := range data {
-		tbl.AppendRows([]table.Row{
-			{value},
-		})
+	for _, value := range row {
+		t.AppendRow(value)
 	}
-	tbl.AppendSeparator()
-	tbl.Render()
+	t.Render()
 }

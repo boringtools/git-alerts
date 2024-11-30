@@ -4,8 +4,6 @@ import (
 	"os"
 	"os/exec"
 	"time"
-
-	"github.com/jedib0t/go-pretty/v6/table"
 )
 
 func GetCurrentTime() (formattedTime string) {
@@ -48,16 +46,4 @@ func RemoveDirectory(dirPath string) error {
 	}
 
 	return nil
-}
-
-func PrintSummery() {
-	tbl := table.NewWriter()
-	tbl.SetOutputMirror(os.Stdout)
-	tbl.AppendHeader(table.Row{"Scan Summery", "Data"})
-	tbl.AppendRows([]table.Row{
-		{"Total Users", NumberOfGitHubUsers},
-		{"Total Users Repositories", NumberOfPublicRepositories},
-	})
-	tbl.AppendSeparator()
-	tbl.Render()
 }

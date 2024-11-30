@@ -77,6 +77,18 @@ Setup slack webhook token as the environment variable
 export SLACK_HOOK=SLACK_WEBHOOK_URL
 ```
 
+Monitor new public repositories being created by your organization users along with secrets detection
+
+```bash
+git-alerts monitor --org your-org-name --gitleaks
+```
+
+Monitor new public repositories being created by your organization users along with secrets detection and slack notification
+
+```bash
+git-alerts monitor --org your-org-name --gitleaks --slack-alert
+```
+
 ### Secrets
 
 Scan with secrets detection using Trufflehog
