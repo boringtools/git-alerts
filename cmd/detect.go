@@ -24,7 +24,7 @@ var detectCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(detectCmd)
 	detectCmd.PersistentFlags().BoolVarP(&common.TrufflehogScan, "trufflehog", "t", false, "Scan secrets using Trufflehog")
-	detectCmd.PersistentFlags().BoolVarP(&common.TrufflehogVerifiedScan, "trufflehog-verified", "v", true, "Scan secrets using Trufflehog verified option")
+	detectCmd.PersistentFlags().BoolVarP(&common.TrufflehogVerifiedScan, "trufflehog-verified", "v", false, "Scan secrets using Trufflehog verified option")
 	detectCmd.PersistentFlags().BoolVarP(&common.GitleaksScan, "gitleaks", "g", false, "Scan secrets using Gitleaks")
 
 	detectCmd.MarkFlagsOneRequired("trufflehog", "trufflehog-verified", "gitleaks")
