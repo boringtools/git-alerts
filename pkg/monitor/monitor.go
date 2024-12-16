@@ -9,6 +9,7 @@ import (
 	"github.com/boringtools/git-alerts/pkg/models"
 	"github.com/boringtools/git-alerts/pkg/notification"
 	"github.com/boringtools/git-alerts/pkg/secrets"
+	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/jedib0t/go-pretty/v6/table"
 )
 
@@ -21,10 +22,20 @@ var (
 func GetMonitorData() {
 	for key, value := range common.NewMonitorRepositories {
 		cloneDirectory := filepath.Join(common.CloneDirectoryPath, strconv.Itoa(key))
-		secrets.CloneRepo(value, cloneDirectory)
-		isSecretFound, _ := secrets.RunGitleaks(cloneDirectory, false)
-		NewRepoData = append(NewRepoData, models.MonitorRepositoryData{Repository: value, Secrets: isSecretFound})
-		common.RemoveDirectory(cloneDirectory)
+		errClone := secrets.CloneRepo(value, cloneDirectory)
+
+		if errClone != nil {
+			if errClone == transport.ErrEmptyRemoteRepository {
+				ui.PrintWarning("Skipping empty repository : %s", value)
+				NewRepoData = append(NewRepoData, models.MonitorRepositoryData{Repository: value, Secrets: false})
+			} else {
+				ui.PrintError("Error while cloning repository : %s", errClone)
+			}
+		} else {
+			isSecretFound, _ := secrets.RunGitleaks(cloneDirectory, false)
+			NewRepoData = append(NewRepoData, models.MonitorRepositoryData{Repository: value, Secrets: isSecretFound})
+			common.RemoveDirectory(cloneDirectory)
+		}
 	}
 }
 
