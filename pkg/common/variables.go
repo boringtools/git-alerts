@@ -8,6 +8,7 @@ var (
 	TrufflehogScan         bool
 	TrufflehogVerifiedScan bool
 	GitleaksScan           bool
+	UsersFilePath          string
 )
 
 var (

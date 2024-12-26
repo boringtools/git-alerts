@@ -36,7 +36,8 @@ type Limits struct {
 }
 
 type GitHubAPIEndPoints struct {
-	GetUsers string
+	GetUsers     string
+	GetUsersRepo string
 }
 
 type ReportFileNames struct {

@@ -24,4 +24,5 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&common.GitHubOrg, "org", "o", "", "GitHub organization name")
 	rootCmd.MarkPersistentFlagRequired("org")
 	rootCmd.PersistentFlags().StringVarP(&common.ReportPath, "report-path", "r", "/tmp/", "Report file path")
+	rootCmd.PersistentFlags().StringVarP(&common.UsersFilePath, "users-file-path", "u", "", "Users file path (CSV)")
 }
