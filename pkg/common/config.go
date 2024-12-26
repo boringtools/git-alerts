@@ -4,9 +4,10 @@ import (
 	"github.com/boringtools/git-alerts/pkg/models"
 )
 
-func GetGitHubAPIEndPoints() *models.GitHubAPIEndPoints {
+func GetGitHubAPIEndPoints(username string) *models.GitHubAPIEndPoints {
 	return &models.GitHubAPIEndPoints{
 		GetUsers: GitHubAPIBaseURL + "/orgs/" + GitHubOrg + "/members",
+		GetUsersRepo: GitHubAPIBaseURL + "/users/" + username + "/repos",
 	}
 }
 

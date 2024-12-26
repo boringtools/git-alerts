@@ -8,30 +8,44 @@ import (
 	"github.com/boringtools/git-alerts/pkg/models"
 )
 
-type RepoURL struct {
-	URL string `json:"repos_url"`
-}
-
 var (
-	rURL     []RepoURL
+	users    []models.GitHubUser
 	repos    []models.GitHubRepository
 	allRepos []models.GitHubRepository
 )
 
 func GetGitHubUsersRepos() ([]byte, error) {
-	ui.PrintMsg("Fetching " + common.GitHubOrg + " users public repositories...")
-
-	users, _ := common.GetJSONFileContent(common.GetReportFilePaths().GitHubOrgUsers)
-	json.Unmarshal(users, &rURL)
+	ui.PrintMsg("Fetching %s users public repositories...", common.GitHubOrg)
 
 	parameters := map[string]string{
 		"per_page": "100",
 	}
-	for _, value := range rURL {
-		usersRepo, _, _ := GetGitHubResponse(value.URL, common.AuthenticatedScan, parameters)
 
-		json.Unmarshal(usersRepo, &repos)
-		allRepos = append(allRepos, repos...)
+	if common.UsersFilePath == "" {
+		data, _ := common.GetJSONFileContent(common.GetReportFilePaths().GitHubOrgUsers)
+		json.Unmarshal(data, &users)
+
+		for _, value := range users {
+			usersRepo, _, _ := GetGitHubResponse(value.ReposUrl, common.AuthenticatedScan, parameters)
+
+			json.Unmarshal(usersRepo, &repos)
+			allRepos = append(allRepos, repos...)
+		}
+
+	} else {
+
+		users, errUsers := common.GetCSVFileContent(common.UsersFilePath)
+
+		if errUsers != nil {
+			return nil, errUsers
+		}
+
+		for _, username := range users {
+			repos_url := common.GetGitHubAPIEndPoints(username).GetUsersRepo
+			usersRepo, _, _ := GetGitHubResponse(repos_url, common.AuthenticatedScan, parameters)
+			json.Unmarshal(usersRepo, &repos)
+			allRepos = append(allRepos, repos...)
+		}
 	}
 
 	jsonData, err := json.Marshal(allRepos)

@@ -57,6 +57,19 @@ Scan and generate report with custom path
 git-alerts scan --org your-org-name --report-path /your/file/path/
 ```
 
+Scan custom list of GitHub users
+
+```bash
+git-alerts scan --org your-org-name --users-file-path /path/to/csv/file
+```
+> Ensure to pass CSV file with the list of GitHub usernames
+
+```csv
+username01
+username02
+username03
+```
+
 ### Monitor
 
 Monitor new public repositories being created by your organization users
@@ -89,6 +102,19 @@ Monitor new public repositories being created by your organization users along w
 git-alerts monitor --org your-org-name --gitleaks --slack-alert
 ```
 
+Monitor custom list of GitHub users
+
+```bash
+git-alerts monitor --org your-org-name --users-file-path /path/to/csv/file
+```
+> Ensure to pass CSV file with the list of GitHub usernames
+
+```csv
+username01
+username02
+username03
+```
+
 ### Secrets
 
 Scan with secrets detection using Trufflehog
@@ -103,6 +129,19 @@ Scan with secrets detection using Gitleaks
 
 ```bash
 git-alerts detect --org your-org-name --gitleaks
+```
+
+Scan with secrets detection using custom list of GitHub users
+
+```bash
+git-alerts detect --org your-org-name --users-file-path /path/to/csv/file --gitleaks
+```
+> Ensure to pass CSV file with the list of GitHub usernames
+
+```csv
+username01
+username02
+username03
 ```
 
 ## Documentation
