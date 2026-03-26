@@ -16,6 +16,23 @@ Any public repository under the organization's user account that was created acc
 
 > Can't be controlled by the administrator `https://github.com/<org-user>/<org-user-repo-name>`
 
+## GitAlerts Platform (Web UI + API)
+
+**Looking for a full platform?** [GitAlerts API](https://github.com/boringtools/git-alerts-api) is a self-hosted web platform built on the same concepts — with a modern React UI, async scanning via Celery, GitHub advanced search (code, commits, issues, repos, users), smart filtering, encrypted token storage, and an MCP server for AI/LLM integration.
+
+📺 [Watch the walkthrough on YouTube](https://youtu.be/9AujWmTx9-w)
+
+| Feature | CLI | Platform |
+|---|---|---|
+| Scan org user repos | ✅ | ✅ |
+| Secrets detection (TruffleHog/Gitleaks) | ✅ | ✅ |
+| GitHub advanced search | ❌ | ✅ |
+| Web UI & dashboard | ❌ | ✅ |
+| Finding triage & filtering | ❌ | ✅ |
+| Slack notifications | ✅ | ✅ |
+| AI/MCP integration | ❌ | ✅ |
+| Async scanning (Celery + Redis) | ❌ | ✅ |
+
 ## Getting Started
 
 - Download the binary file for your operating system / architecture from the [Official GitHub Releases](https://github.com/boringtools/git-alerts/releases)
